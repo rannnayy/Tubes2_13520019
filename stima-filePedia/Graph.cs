@@ -57,5 +57,29 @@ namespace stima_filePedia
         {
             BFS2(this.fileSearched);
         }
+
+        public void DFS(string mode)
+        {
+            Stack<string> s;
+            s.Push(this.rootPath);
+            while(s.Any())
+            {
+                string temp = s.Pop();
+                DirectoryInfo dir = new DirectoryInfo(temp);
+                DirectoryInfo[] childDirs = dir.GetDirectories();
+                FileInfo[] files = dir.GetFiles();
+
+                foreach(FileInfo file in files){
+                    if(file.name==this.fileSearched){
+                        FinishSearch(Path.Combine(temp,file.name)); //auto berhenti
+                    }
+                }
+                foreach(DirectoryInfo childDir in childDirs){
+                    s.Push(Path.Combine(temp,childDir.ToString()));
+                }
+            }
+
+            FinishSearch(null);
+        }
     }
 }
