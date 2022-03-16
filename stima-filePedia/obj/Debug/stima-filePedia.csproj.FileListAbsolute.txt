@@ -1,0 +1,16 @@
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\stima-filePedia.exe.config
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\stima-filePedia.exe
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\stima-filePedia.pdb
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\AutomaticGraphLayout.dll
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\AutomaticGraphLayout.Drawing.dll
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\bin\Debug\Microsoft.Msagl.WpfGraphControl.dll
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.AssemblyReference.cache
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.SuggestedBindingRedirects.cache
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima_filePedia.Form1.resources
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima_filePedia.Properties.Resources.resources
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.GenerateResource.cache
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.CoreCompileInputs.cache
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.CopyComplete
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.exe
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.pdb
