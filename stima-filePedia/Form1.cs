@@ -16,7 +16,7 @@ namespace stima_filePedia
         public Form1()
         {
             InitializeComponent();
-            this.graph = new Graph(null, null);
+            this.graph = new Graph(null);
             this.graph.FinishSearch += FileFound;
             bgWk.DoWork += bgWorking;
             bgWk.RunWorkerCompleted += bgWorkingDone;
@@ -34,7 +34,7 @@ namespace stima_filePedia
 
         public void bgWorking(object sender, DoWorkEventArgs args)
         {
-            graph.BFS();
+            graph.BFS("all","nama file");
         }
 
         // Button Search Folder
