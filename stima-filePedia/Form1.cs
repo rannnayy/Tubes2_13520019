@@ -16,7 +16,7 @@ namespace stima_filePedia
         public Form1()
         {
             InitializeComponent();
-            this.graph = new Graph(null);
+            this.graph = new Graph("C:\\Users\\vitos\\Files\\folder-test");
             this.graph.FinishSearch += FileFound;
             bgWk.DoWork += bgWorking;
             bgWk.RunWorkerCompleted += bgWorkingDone;
@@ -61,6 +61,43 @@ namespace stima_filePedia
             {
 
             }
+
+            graph.BFS("first", "Forza Fix 2.1.exe");
+            gViewer1.Graph = graph.GetGraph();
+        }
+
+        private void textBoxFileName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxLinkPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxFindAll_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonBFS_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonDFS_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gViewer1_Load(object sender, EventArgs e)
+        {
         }
     }
 }

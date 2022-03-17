@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections;
 
 namespace stima_filePedia
 {
@@ -13,7 +14,8 @@ namespace stima_filePedia
     public class Graph
     {
         private string rootPath;
-        
+        private Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+
         public event FileFound FinishSearch;
 
         public Graph(string rootPath)
@@ -24,17 +26,44 @@ namespace stima_filePedia
         public int Count { get; set; }
         public string RootPath { get { return this.rootPath; } }
 
+        //create a form 
+        // System.Windows.Forms.Form form = new System.Windows.Forms.Form();
+        //create a viewer object 
+        // Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
+        //create a graph object 
+        
+
+        public Microsoft.Msagl.Drawing.Graph GetGraph()
+        {
+            return graph;
+        }
+
         public void BFS(string mode,string fileSearched)
         {
             Queue<string> q = new Queue<string>();
             q.Enqueue(this.rootPath);
             List<string> results = new List<string>();
             bool found=false;
+
             while(q.Any() && !found)
             {
                 string temp = q.Dequeue();
                 string[] dirsNfiles = Directory.GetFileSystemEntries(temp, "*", SearchOption.TopDirectoryOnly);
-                Debug.WriteLine(temp);
+                Debug.WriteLine("temp: " + temp);
+
+                // GRAPHING START
+                string[] subs = temp.Split('\\');
+                foreach (string dir in Directory.GetDirectories(temp).Select(Path.GetFileName))
+                {
+                    this.graph.AddEdge(subs.Last(), dir);
+                }
+
+                DirectoryInfo di = new DirectoryInfo(temp);
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    this.graph.AddEdge(subs.Last(), file.Name);
+                }
+                // GRAPHING END
 
                 foreach (string currDirFile in dirsNfiles)
                 {
@@ -60,6 +89,39 @@ namespace stima_filePedia
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
             //FinishSearch(null);
+
+            // Graph coloring
+            String basePath = rootPath.Split('\\').Last();
+            int trimStart = rootPath.Substring(0, rootPath.Length - basePath.Length).Length;
+            foreach (string result in results)
+            {
+                string[] pathList = result.Substring(trimStart).Split('\\');
+
+                List<Microsoft.Msagl.Drawing.Edge> edgeList = new List<Microsoft.Msagl.Drawing.Edge>();
+                for (int i = 0; i < pathList.Length - 1; i++)
+                {
+                    foreach (Microsoft.Msagl.Drawing.Edge edge in this.graph.FindNode(pathList[i]).Edges)
+                    {
+                        if (edge.Target.Equals(pathList[i + 1]))
+                        {
+                            edgeList.Add(edge);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < pathList.Length - 1; i++)
+                {
+                    // Remove existing edge to path
+                    this.graph.RemoveEdge(edgeList[i]);
+
+                    // Add colored edge and node
+                    this.graph.AddEdge(pathList[i], pathList[i + 1]).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    this.graph.FindNode(pathList[i]).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    
+                }
+                this.graph.FindNode(pathList.Last()).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+            }
+            
         }
 
         public void DFS(string mode,string fileSearched)

@@ -15,14 +15,20 @@ namespace stima_filePedia
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            stima_filePedia.Graph graph = new stima_filePedia.Graph("D:/TLX");
-            graph.BFS("all","main.cpp");
-            graph.BFS("first","main.cpp");
-            graph.DFS("all","main.cpp");
-            graph.DFS("first","main.cpp");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+            stima_filePedia.Graph graph = new stima_filePedia.Graph("C:\\Users\\vitos\\Files\\folder-test");
+            // Debug.WriteLine("\nBFS: ");
+            // graph.BFS("all","prak1.sql");
+            // Debug.WriteLine("\nBFS: ");
+            // graph.BFS("first", "prak1.sql");
+            // Debug.WriteLine("\nDFS: ");
+            // graph.DFS("all", "prak1.sql");
+            // Debug.WriteLine("\nDFS: ");
+            // graph.DFS("first", "prak1.sql");
+
+            
         }
     }
 }
