@@ -62,7 +62,7 @@ namespace stima_filePedia
 
             }
 
-            graph.BFS("all", "Forza Fix 2.1.exe");
+            graph.DFS("first", "Forza Fix 2.1.exe");
             gViewer1.Graph = graph.GetGraph();
         }
 

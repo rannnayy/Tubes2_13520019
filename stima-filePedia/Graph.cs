@@ -85,9 +85,10 @@ namespace stima_filePedia
             //FinishSearch(null);
 
             // GRAPHING
-            if (results.Count > 0) this.graph.FindNode(rootPath).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+            Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
+            if (results.Count > 0) rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+            else rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
 
-            
             foreach (string result in results)
             {
                 List<string> foundFilePath = new List<string>();
@@ -98,7 +99,6 @@ namespace stima_filePedia
                     // Change the color to blue
                     string joined = foundFilePath[i] + "\\" + combination[i];
                     foundFilePath.Add(joined);
-                    //Debug.WriteLine("path: " + joined);
                     this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
                 }
             }
@@ -130,7 +130,6 @@ namespace stima_filePedia
         {
             Stack<string> s = new Stack<string>();
             List<string> results = new List<string>();
-            Dictionary<string, int> nameCount = new Dictionary<string, int>();
             s.Push(this.rootPath);
 
             bool found=false;
@@ -143,28 +142,15 @@ namespace stima_filePedia
                 FileInfo[] files = dir.GetFiles();
 
                 // GRAPHING START
-                string[] subs = temp.Split('\\');
-                foreach (string d in Directory.GetDirectories(temp).Select(Path.GetFileName))
+                this.graph.AddNode(rootPath);
+                foreach (DirectoryInfo d in childDirs)
                 {
-                    this.graph.AddEdge(subs.Last(), d).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    this.graph.AddNode(d.FullName).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                 }
-
-                DirectoryInfo di = new DirectoryInfo(temp);
-                foreach (FileInfo file in di.GetFiles())
+                foreach (FileInfo f in files)
                 {
-                    if (nameCount.ContainsKey(file.Name))
-                    {
-                        nameCount[file.Name] = nameCount[file.Name] + 1;
-                        this.graph.AddEdge(subs.Last(), String.Format("{0} ({1})", file.Name, nameCount[file.Name])).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                    }
-                    else
-                    {
-                        this.graph.AddEdge(subs.Last(), file.Name).Attr.Color = Microsoft.Msagl.Drawing.Color.Red; ;
-                        nameCount.Add(file.Name, 1);
-                    }
+                    this.graph.AddNode(f.FullName).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                 }
-                // GRAPHING END
-
 
                 foreach (FileInfo file in files){
                     Debug.Write("Nama File :");
@@ -191,38 +177,43 @@ namespace stima_filePedia
             //FinishSearch(null);
 
 
-            // Graph coloring
-            String basePath = rootPath.Split('\\').Last();
-            int trimStart = rootPath.Substring(0, rootPath.Length - basePath.Length).Length;
+            // GRAPHING
+            Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
+            if (results.Count > 0) rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+            else rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+
+
             foreach (string result in results)
             {
-                string[] pathList = result.Substring(trimStart).Split('\\');
-
-                List<Microsoft.Msagl.Drawing.Edge> edgeList = new List<Microsoft.Msagl.Drawing.Edge>();
-                for (int i = 0; i < pathList.Length - 1; i++)
+                List<string> foundFilePath = new List<string>();
+                foundFilePath.Add(rootPath);
+                string[] combination = result.Substring(rootPath.Length + 1).Split('\\');
+                for (int i = 0; i < combination.Length; i++)
                 {
-                    foreach (Microsoft.Msagl.Drawing.Edge edge in this.graph.FindNode(pathList[i]).Edges)
-                    {
-                        if (edge.Target.Equals(pathList[i + 1]))
-                        {
-                            edgeList.Add(edge);
-                        }
-                    }
+                    // Change the color to blue
+                    string joined = foundFilePath[i] + "\\" + combination[i];
+                    foundFilePath.Add(joined);
+                    this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
                 }
+            }
 
-                Debug.WriteLine(edgeList);
+            Microsoft.Msagl.Drawing.Node[] nodeArray = this.graph.Nodes.ToArray().Where(n => n.Id != rootPath).ToArray();
+            foreach (Microsoft.Msagl.Drawing.Node node in nodeArray)
+            {
 
-                for (int i = 0; i < pathList.Length - 1; i++)
+                string[] pathSplit = node.Id.Split('\\');
+                string parentNodeId = string.Join("\\", pathSplit.Take(pathSplit.Length - 1));
+                Microsoft.Msagl.Drawing.Node parentNode = this.graph.FindNode(parentNodeId);
+                node.LabelText = pathSplit.Last();
+
+                if (parentNode.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue && node.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue)
                 {
-                    // Remove existing edge to path
-                    this.graph.RemoveEdge(edgeList[i]);
-
-                    // Add colored edge and node
-                    this.graph.AddEdge(pathList[i], pathList[i + 1]).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-                    this.graph.FindNode(pathList[i]).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-
+                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
                 }
-                this.graph.FindNode(pathList.Last()).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                else
+                {
+                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                }
             }
         }
     }
