@@ -18,7 +18,7 @@ namespace stima_filePedia
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            stima_filePedia.Graph graph = new stima_filePedia.Graph("C:\\Users\\vitos\\Files\\folder-test");
+            //stima_filePedia.Graph graph = new stima_filePedia.Graph();
             // Debug.WriteLine("\nBFS: ");
             // graph.BFS("all","prak1.sql");
             // Debug.WriteLine("\nBFS: ");

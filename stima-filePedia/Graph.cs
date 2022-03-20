@@ -13,35 +13,21 @@ namespace stima_filePedia
 
     public class Graph
     {
-        private string rootPath;
         private Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
 
         public event FileFound FinishSearch;
 
-        public Graph(string rootPath)
-        {
-            this.rootPath = rootPath;
-        }
-
-        public int Count { get; set; }
-        public string RootPath { get { return this.rootPath; } }
-
-        //create a form 
-        // System.Windows.Forms.Form form = new System.Windows.Forms.Form();
-        //create a viewer object 
-        // Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
-        //create a graph object 
-        
+        public Graph() { }
 
         public Microsoft.Msagl.Drawing.Graph GetGraph()
         {
             return graph;
         }
 
-        public void BFS(string mode,string fileSearched)
+        public void BFS(string mode,string fileSearched, string rootPath)
         {
             Queue<string> q = new Queue<string>();
-            q.Enqueue(this.rootPath);
+            q.Enqueue(rootPath);
             List<string> results = new List<string>();
             bool found=false;
 
@@ -71,6 +57,7 @@ namespace stima_filePedia
                         if (mode == "first")
                         {
                             found=true;
+                            FinishSearch(currDirFile);
                         }
                     }
                     // Kalau directory, append ke Q
@@ -82,7 +69,6 @@ namespace stima_filePedia
             }
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
-            //FinishSearch(null);
 
             // GRAPHING
             Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
@@ -126,11 +112,11 @@ namespace stima_filePedia
 
         }
 
-        public void DFS(string mode,string fileSearched)
+        public void DFS(string mode,string fileSearched, string rootPath)
         {
             Stack<string> s = new Stack<string>();
             List<string> results = new List<string>();
-            s.Push(this.rootPath);
+            s.Push(rootPath);
 
             bool found=false;
             while(s.Any() && !found)
@@ -164,8 +150,7 @@ namespace stima_filePedia
                         {
                             found=true;
                         }
-                        //FinishSearch(result); //auto berhenti
-
+                        FinishSearch(result);
                     }
                 }
                 foreach(DirectoryInfo childDir in childDirs){
@@ -174,8 +159,6 @@ namespace stima_filePedia
             }
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
-            //FinishSearch(null);
-
 
             // GRAPHING
             Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);

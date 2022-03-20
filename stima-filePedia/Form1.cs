@@ -1,40 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
 
 namespace stima_filePedia
 {
     public partial class Form1 : Form
     {
         private Graph graph;
+        private Stopwatch stopwatch;
         public Form1()
         {
             InitializeComponent();
-            this.graph = new Graph("C:\\Users\\vitos\\Files\\folder-test");
-            this.graph.FinishSearch += FileFound;
+            stopwatch = new Stopwatch();
             bgWk.DoWork += bgWorking;
             bgWk.RunWorkerCompleted += bgWorkingDone;
         }
 
         private void FileFound(string finalPath)
         {
-
+            listBoxLinkPath.BeginInvoke((Action) delegate() { 
+                listBoxLinkPath.Items.Add(finalPath); 
+            });
         }
 
         private void bgWorkingDone(object sender, RunWorkerCompletedEventArgs args)
         {
             Console.WriteLine("Done");
+            gViewer1.Graph = graph.GetGraph();
+            stopwatch.Stop();
+            labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
         }
 
         public void bgWorking(object sender, DoWorkEventArgs args)
         {
-            graph.BFS("all","nama file");
+            //graph.BFS("all","nama file");
+            Console.WriteLine(labelFolder.Text == "No Folder Chosen");
+            Console.WriteLine(textBoxFileName.Text == "");
+            Console.WriteLine(checkBoxFindAll.Checked);
+            Console.WriteLine(radioButtonBFS.Checked);
+            Console.WriteLine(radioButtonDFS.Checked);
+            if (labelFolder.Text == "No Folder Chosen")
+            {
+                MessageBox.Show("Choose A Folder!");
+            }
+            if (textBoxFileName.Text == "")
+            {
+                MessageBox.Show("Input A Filename! (including extension)");
+            }
+            if (radioButtonBFS.Checked)
+            {
+                if (checkBoxFindAll.Checked)
+                {
+                    graph.BFS("all", textBoxFileName.Text, labelFolder.Text);
+                }
+                else
+                {
+                    graph.BFS("first", textBoxFileName.Text, labelFolder.Text);
+                }
+            }
+            else if (radioButtonDFS.Checked)
+            {
+                if (checkBoxFindAll.Checked)
+                {
+                    graph.DFS("all", textBoxFileName.Text, labelFolder.Text);
+                }
+                else
+                {
+                    graph.DFS("first", textBoxFileName.Text, labelFolder.Text);
+                }
+            }
+
         }
 
         // Button Search Folder
@@ -52,52 +89,16 @@ namespace stima_filePedia
         // Button Search!
         private void button2_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(labelFolder.Text == "No Folder Chosen");
-            Console.WriteLine(textBoxFileName.Text == "");
-            Console.WriteLine(checkBoxFindAll.Checked);
-            Console.WriteLine(radioButtonBFS.Checked);
-            Console.WriteLine(radioButtonDFS.Checked);
-            if (labelFolder.Text == "No Folder Chosen")
-            {
-
-            }
-
-            graph.DFS("first", "Forza Fix 2.1.exe");
-            gViewer1.Graph = graph.GetGraph();
-        }
-
-        private void textBoxFileName_TextChanged(object sender, EventArgs e)
-        {
-
+            stopwatch.Start();
+            graph = new Graph();
+            graph.FinishSearch += FileFound;
+            bgWk.RunWorkerAsync();
         }
 
         private void listBoxLinkPath_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void checkBoxFindAll_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButtonBFS_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButtonDFS_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gViewer1_Load(object sender, EventArgs e)
-        {
+            string file_path = listBoxLinkPath.SelectedItem.ToString();
+            Process.Start(Path.GetDirectoryName(file_path));
         }
     }
 }
