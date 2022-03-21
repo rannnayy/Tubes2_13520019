@@ -31,22 +31,19 @@ namespace stima_filePedia
             List<string> results = new List<string>();
             bool found=false;
 
-            while(q.Any() && !found)
+            this.graph.AddNode(rootPath);
+
+            while (q.Any() && !found)
             {
                 string temp = q.Dequeue();
                 string[] dirsNfiles = Directory.GetFileSystemEntries(temp, "*", SearchOption.TopDirectoryOnly);
                 Debug.WriteLine("temp: " + temp);
 
-                // GRAPHING START (Add Node)
-                this.graph.AddNode(rootPath);
-                foreach (string dnf in dirsNfiles)
-                {
-                    this.graph.AddNode(dnf).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                }
-                // GRAPHING END
+                this.graph.AddNode(temp).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
 
                 foreach (string currDirFile in dirsNfiles)
                 {
+                    Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(currDirFile);
                     // Mencocokkan nama File, file yang dicari ditemukan
                     if (File.Exists(currDirFile) && (Path.GetFileName(currDirFile) == fileSearched))
                     {
@@ -59,11 +56,16 @@ namespace stima_filePedia
                             found=true;
                             FinishSearch(currDirFile);
                         }
-                    }
+                    } 
                     // Kalau directory, append ke Q
                     else if (Directory.Exists(currDirFile))
                     {
                         q.Enqueue(currDirFile);
+                    }
+                    // Kalau file, beri warna merah
+                    else
+                    {
+                        node.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                     }
                 }
             }
@@ -99,13 +101,18 @@ namespace stima_filePedia
                 Microsoft.Msagl.Drawing.Node parentNode = this.graph.FindNode(parentNodeId);
                 node.LabelText = pathSplit.Last();
 
-                if (parentNode.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue && node.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue)
+                Microsoft.Msagl.Drawing.Color blueColor = Microsoft.Msagl.Drawing.Color.Blue;
+                Microsoft.Msagl.Drawing.Color redColor = Microsoft.Msagl.Drawing.Color.Red;
+                if (parentNode.Attr.Color == blueColor && node.Attr.Color == blueColor)
                 {
                     this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                } else if ((parentNode.Attr.Color == redColor || parentNode.Attr.Color == blueColor) && (node.Attr.Color == redColor))
+                {
+                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                 }
                 else
                 {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
                 }
             }
             
@@ -119,7 +126,10 @@ namespace stima_filePedia
             s.Push(rootPath);
 
             bool found=false;
-            while(s.Any() && !found)
+
+
+            this.graph.AddNode(rootPath);
+            while (s.Any() && !found)
             {
                 string temp = s.Pop();
                 Debug.WriteLine(temp);
@@ -128,17 +138,14 @@ namespace stima_filePedia
                 FileInfo[] files = dir.GetFiles();
 
                 // GRAPHING START
-                this.graph.AddNode(rootPath);
+                this.graph.AddNode(temp).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                 foreach (DirectoryInfo d in childDirs)
                 {
-                    this.graph.AddNode(d.FullName).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                }
-                foreach (FileInfo f in files)
-                {
-                    this.graph.AddNode(f.FullName).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                    this.graph.AddNode(d.FullName);
                 }
 
                 foreach (FileInfo file in files){
+                    Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(file.FullName);
                     Debug.Write("Nama File :");
                     Debug.WriteLine(file);
                     if(file.Name==fileSearched){
@@ -151,9 +158,13 @@ namespace stima_filePedia
                             found=true;
                         }
                         FinishSearch(result);
+                    } else
+                    {
+                        node.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
                     }
                 }
                 foreach(DirectoryInfo childDir in childDirs){
+                    this.graph.AddNode(childDir.FullName);
                     s.Push(Path.Combine(temp,childDir.ToString()));
                 }
             }
@@ -189,13 +200,19 @@ namespace stima_filePedia
                 Microsoft.Msagl.Drawing.Node parentNode = this.graph.FindNode(parentNodeId);
                 node.LabelText = pathSplit.Last();
 
-                if (parentNode.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue && node.Attr.Color == Microsoft.Msagl.Drawing.Color.Blue)
+                Microsoft.Msagl.Drawing.Color blueColor = Microsoft.Msagl.Drawing.Color.Blue;
+                Microsoft.Msagl.Drawing.Color redColor = Microsoft.Msagl.Drawing.Color.Red;
+                if (parentNode.Attr.Color == blueColor && node.Attr.Color == blueColor)
                 {
                     this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
                 }
-                else
+                else if ((parentNode.Attr.Color == redColor || parentNode.Attr.Color == blueColor) && (node.Attr.Color == redColor))
                 {
                     this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                }
+                else
+                {
+                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
                 }
             }
         }
