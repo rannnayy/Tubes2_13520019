@@ -6,16 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections;
+using System.Threading;
 
 namespace stima_filePedia
 {
-    public delegate void FileFound(string finalPath);
-
     public class Graph
     {
         private Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
-
-        public event FileFound FinishSearch;
 
         public Graph() { }
 
@@ -24,7 +21,7 @@ namespace stima_filePedia
             return graph;
         }
 
-        public void BFS(string mode,string fileSearched, string rootPath)
+        public List<string> BFS(string mode,string fileSearched, string rootPath)
         {
             Queue<string> q = new Queue<string>();
             q.Enqueue(rootPath);
@@ -32,6 +29,7 @@ namespace stima_filePedia
             bool found=false;
 
             this.graph.AddNode(rootPath);
+            /*Thread.Sleep(1000);*/
 
             while (q.Any() && !found)
             {
@@ -40,21 +38,21 @@ namespace stima_filePedia
                 Debug.WriteLine("temp: " + temp);
 
                 this.graph.AddNode(temp).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                /*Thread.Sleep(1000);*/
 
                 foreach (string currDirFile in dirsNfiles)
                 {
                     Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(currDirFile);
+                    /*Thread.Sleep(1000);*/
                     // Mencocokkan nama File, file yang dicari ditemukan
                     if (File.Exists(currDirFile) && (Path.GetFileName(currDirFile) == fileSearched))
                     {
-                        //FinishSearch(currDirFile);
                         Debug.Write("Ketemu : ");
                         Debug.WriteLine(currDirFile);
                         results.Add(currDirFile);
                         if (mode == "first")
                         {
                             found=true;
-                            FinishSearch(currDirFile);
                         }
                     } 
                     // Kalau directory, append ke Q
@@ -71,6 +69,7 @@ namespace stima_filePedia
             }
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
+            /*Thread.Sleep(1000);*/
 
             // GRAPHING
             Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
@@ -79,8 +78,10 @@ namespace stima_filePedia
 
             foreach (string result in results)
             {
-                List<string> foundFilePath = new List<string>();
-                foundFilePath.Add(rootPath);
+                List<string> foundFilePath = new List<string>
+                {
+                    rootPath
+                };
                 string[] combination = result.Substring(rootPath.Length + 1).Split('\\');
                 for (int i = 0; i < combination.Length; i++)
                 {
@@ -115,11 +116,11 @@ namespace stima_filePedia
                     this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
                 }
             }
-            
 
+            return results;
         }
 
-        public void DFS(string mode,string fileSearched, string rootPath)
+        public List<string> DFS(string mode,string fileSearched, string rootPath)
         {
             Stack<string> s = new Stack<string>();
             List<string> results = new List<string>();
@@ -157,7 +158,6 @@ namespace stima_filePedia
                         {
                             found=true;
                         }
-                        FinishSearch(result);
                     } else
                     {
                         node.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
@@ -179,8 +179,10 @@ namespace stima_filePedia
 
             foreach (string result in results)
             {
-                List<string> foundFilePath = new List<string>();
-                foundFilePath.Add(rootPath);
+                List<string> foundFilePath = new List<string>
+                {
+                    rootPath
+                };
                 string[] combination = result.Substring(rootPath.Length + 1).Split('\\');
                 for (int i = 0; i < combination.Length; i++)
                 {
@@ -215,6 +217,8 @@ namespace stima_filePedia
                     this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
                 }
             }
+
+            return results;
         }
     }
 }

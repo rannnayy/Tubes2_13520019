@@ -17,7 +17,7 @@ namespace stima_filePedia
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form2());
             //stima_filePedia.Graph graph = new stima_filePedia.Graph();
             // Debug.WriteLine("\nBFS: ");
             // graph.BFS("all","prak1.sql");

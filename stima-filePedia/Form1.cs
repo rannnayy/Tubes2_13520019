@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace stima_filePedia
 {
@@ -14,64 +16,6 @@ namespace stima_filePedia
         {
             InitializeComponent();
             stopwatch = new Stopwatch();
-            bgWk.DoWork += bgWorking;
-            bgWk.RunWorkerCompleted += bgWorkingDone;
-        }
-
-        private void FileFound(string finalPath)
-        {
-            listBoxLinkPath.BeginInvoke((Action) delegate() { 
-                listBoxLinkPath.Items.Add(finalPath); 
-            });
-        }
-
-        private void bgWorkingDone(object sender, RunWorkerCompletedEventArgs args)
-        {
-            Console.WriteLine("Done");
-            gViewer1.Graph = graph.GetGraph();
-            stopwatch.Stop();
-            labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
-        }
-
-        public void bgWorking(object sender, DoWorkEventArgs args)
-        {
-            //graph.BFS("all","nama file");
-            Console.WriteLine(labelFolder.Text == "No Folder Chosen");
-            Console.WriteLine(textBoxFileName.Text == "");
-            Console.WriteLine(checkBoxFindAll.Checked);
-            Console.WriteLine(radioButtonBFS.Checked);
-            Console.WriteLine(radioButtonDFS.Checked);
-            if (labelFolder.Text == "No Folder Chosen")
-            {
-                MessageBox.Show("Choose A Folder!");
-            }
-            if (textBoxFileName.Text == "")
-            {
-                MessageBox.Show("Input A Filename! (including extension)");
-            }
-            if (radioButtonBFS.Checked)
-            {
-                if (checkBoxFindAll.Checked)
-                {
-                    graph.BFS("all", textBoxFileName.Text, labelFolder.Text);
-                }
-                else
-                {
-                    graph.BFS("first", textBoxFileName.Text, labelFolder.Text);
-                }
-            }
-            else if (radioButtonDFS.Checked)
-            {
-                if (checkBoxFindAll.Checked)
-                {
-                    graph.DFS("all", textBoxFileName.Text, labelFolder.Text);
-                }
-                else
-                {
-                    graph.DFS("first", textBoxFileName.Text, labelFolder.Text);
-                }
-            }
-
         }
 
         // Button Search Folder
@@ -89,10 +33,54 @@ namespace stima_filePedia
         // Button Search!
         private void button2_Click(object sender, EventArgs e)
         {
-            stopwatch.Start();
+            listBoxLinkPath.Items.Clear();
+
+            List<string> results = new List<string>();
+
             graph = new Graph();
-            graph.FinishSearch += FileFound;
-            bgWk.RunWorkerAsync();
+
+            if (labelFolder.Text == "No Folder Chosen")
+            {
+                MessageBox.Show("Choose A Folder!");
+            }
+            if (textBoxFileName.Text == "")
+            {
+                MessageBox.Show("Input A Filename! (including extension)");
+            }
+            if (radioButtonBFS.Checked)
+            {
+                stopwatch.Start();
+                if (checkBoxFindAll.Checked)
+                {
+                    results = graph.BFS("all", textBoxFileName.Text, labelFolder.Text);
+                }
+                else
+                {
+                    results = graph.BFS("first", textBoxFileName.Text, labelFolder.Text);
+                }
+                stopwatch.Stop();
+            }
+            else if (radioButtonDFS.Checked)
+            {
+                stopwatch.Start();
+                if (checkBoxFindAll.Checked)
+                {
+                    results = graph.DFS("all", textBoxFileName.Text, labelFolder.Text);
+                }
+                else
+                {
+                    results = graph.DFS("first", textBoxFileName.Text, labelFolder.Text);
+                }
+                stopwatch.Stop();
+            }
+            labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
+
+            foreach(string res in results)
+            {
+                listBoxLinkPath.Items.Add(res);
+            }
+
+            gViewer1.Graph = graph.GetGraph();
         }
 
         private void listBoxLinkPath_SelectedIndexChanged(object sender, EventArgs e)

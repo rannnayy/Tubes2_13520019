@@ -46,3 +46,4 @@ C:\Users\vitos\Files\Kuliah\Sem4\Stima\stima-filePedia\stima-filePedia\obj\Debug
 C:\Users\vitos\Files\Kuliah\Sem4\Stima\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.csproj.CopyComplete
 C:\Users\vitos\Files\Kuliah\Sem4\Stima\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.exe
 C:\Users\vitos\Files\Kuliah\Sem4\Stima\stima-filePedia\stima-filePedia\obj\Debug\stima-filePedia.pdb
+C:\DatasZephyrus\Projects\stima-filePedia\stima-filePedia\stima-filePedia\obj\Debug\stima_filePedia.Form2.resources
