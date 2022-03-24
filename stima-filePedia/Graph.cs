@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections;
 using System.Threading;
+using System.ComponentModel;
 
 namespace stima_filePedia
 {
     public class Graph
     {
         private Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
-
         public Graph() { }
 
         public Microsoft.Msagl.Drawing.Graph GetGraph()
@@ -21,35 +21,95 @@ namespace stima_filePedia
             return graph;
         }
 
-        public List<string> BFS(string mode,string fileSearched, string rootPath)
+
+        // public async List<string> BFS(string mode, string fileSearched, string rootPath)
+        
+        public List<string> BFS(string mode,string fileSearched, string rootPath, BackgroundWorker bgWorker)
         {
             Queue<string> q = new Queue<string>();
             q.Enqueue(rootPath);
             List<string> results = new List<string>();
             bool found=false;
 
-            this.graph.AddNode(rootPath);
-            /*Thread.Sleep(1000);*/
 
             while (q.Any() && !found)
             {
                 string temp = q.Dequeue();
                 string[] dirsNfiles = Directory.GetFileSystemEntries(temp, "*", SearchOption.TopDirectoryOnly);
-                Debug.WriteLine("temp: " + temp);
 
-                this.graph.AddNode(temp).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                /*Thread.Sleep(1000);*/
+                // Jika directory kosong, tandai dengan directory tersebut dengan warna merah serta warna parent nya (jika hitam)
+                if (dirsNfiles.Length == 0)
+                {
+                    List<string> foundFilePath = new List<string> { rootPath };
+                    string[] combination = temp.Substring(rootPath.Length + 1).Split('\\');
+                    for (int i = 0; i < combination.Length; i++)
+                    {
+                        string joined = foundFilePath[i] + "\\" + combination[i];
+                        foundFilePath.Add(joined);
+                        var joinedNode = this.graph.FindNode(joined);
+                        if (joinedNode.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                        {
+                            joinedNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                        }
+                        foreach (var edge in this.graph.Edges.ToArray())
+                        {
+                            if (edge.TargetNode.Id == foundFilePath[i])
+                            {
+                                if (edge.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                                {
+                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                var parentNode = this.graph.AddNode(temp);
+                var baseLabelText = parentNode.LabelText.Split('\\');
+                parentNode.LabelText = baseLabelText.Last();
+
+                bgWorker.ReportProgress(0);
+                Thread.Sleep(250);
 
                 foreach (string currDirFile in dirsNfiles)
                 {
                     Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(currDirFile);
-                    /*Thread.Sleep(1000);*/
+                    var e = new Microsoft.Msagl.Drawing.Edge(parentNode, node, Microsoft.Msagl.Drawing.ConnectionToGraph.Connected);
+
+                    var labelText = node.LabelText.Split('\\');
+                    node.LabelText = labelText.Last();
+                    bgWorker.ReportProgress(0);
+                    Thread.Sleep(250);
+
                     // Mencocokkan nama File, file yang dicari ditemukan
                     if (File.Exists(currDirFile) && (Path.GetFileName(currDirFile) == fileSearched))
                     {
                         Debug.Write("Ketemu : ");
                         Debug.WriteLine(currDirFile);
                         results.Add(currDirFile);
+
+                        // Mewarnai hasil ketemu dan semua parent directory nya dengan warna biru
+                        node.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                        this.graph.FindNode(rootPath).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+
+                        List<string> foundFilePath = new List<string>{rootPath};
+                        string[] combination = currDirFile.Substring(rootPath.Length + 1).Split('\\');
+                        for (int i = 0; i < combination.Length; i++)
+                        {
+                            string joined = foundFilePath[i] + "\\" + combination[i];
+                            foundFilePath.Add(joined);
+                            this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                            foreach (var edge in this.graph.Edges.ToArray())
+                            {
+                                if (edge.TargetNode.Id == foundFilePath[i])
+                                {
+                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                                    break;
+                                }
+                            }
+                        }
+
                         if (mode == "first")
                         {
                             found=true;
@@ -60,67 +120,48 @@ namespace stima_filePedia
                     {
                         q.Enqueue(currDirFile);
                     }
-                    // Kalau file, beri warna merah
+                    // Kalau file, beri warna merah untuk node file tersebut dan seluruh parent directory nya (jika berwarna hitam)
                     else
                     {
                         node.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                        e.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+
+                        List<string> foundFilePath = new List<string> { rootPath };
+                        string[] combination = currDirFile.Substring(rootPath.Length + 1).Split('\\');
+                        for (int i = 0; i < combination.Length; i++)
+                        {
+                            string joined = foundFilePath[i] + "\\" + combination[i];
+                            foundFilePath.Add(joined);
+                            var joinedNode = this.graph.FindNode(joined);
+                            if (joinedNode.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                            {
+                                joinedNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                            }
+                            foreach (var edge in this.graph.Edges.ToArray())
+                            {
+                                if (edge.TargetNode.Id == foundFilePath[i])
+                                {
+                                    if (edge.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                                    {
+                                        edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                     }
+                    bgWorker.ReportProgress(0);
                 }
             }
+
+
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
-            /*Thread.Sleep(1000);*/
-
-            // GRAPHING
-            Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
-            if (results.Count > 0) rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-            else rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-
-            foreach (string result in results)
-            {
-                List<string> foundFilePath = new List<string>
-                {
-                    rootPath
-                };
-                string[] combination = result.Substring(rootPath.Length + 1).Split('\\');
-                for (int i = 0; i < combination.Length; i++)
-                {
-                    // Change the color to blue
-                    string joined = foundFilePath[i] + "\\" + combination[i];
-                    foundFilePath.Add(joined);
-                    this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-                }
-            }
-
-            Microsoft.Msagl.Drawing.Node[] nodeArray = this.graph.Nodes.ToArray().Where(n => n.Id != rootPath).ToArray();
-            foreach (Microsoft.Msagl.Drawing.Node node in nodeArray)
-            {
-
-                string[] pathSplit = node.Id.Split('\\');
-                string parentNodeId = string.Join("\\", pathSplit.Take(pathSplit.Length - 1));
-                Debug.WriteLine("parent node id: " + parentNodeId);
-                Microsoft.Msagl.Drawing.Node parentNode = this.graph.FindNode(parentNodeId);
-                node.LabelText = pathSplit.Last();
-
-                Microsoft.Msagl.Drawing.Color blueColor = Microsoft.Msagl.Drawing.Color.Blue;
-                Microsoft.Msagl.Drawing.Color redColor = Microsoft.Msagl.Drawing.Color.Red;
-                if (parentNode.Attr.Color == blueColor && node.Attr.Color == blueColor)
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-                } else if ((parentNode.Attr.Color == redColor || parentNode.Attr.Color == blueColor) && (node.Attr.Color == redColor))
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                }
-                else
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
-                }
-            }
 
             return results;
         }
 
-        public List<string> DFS(string mode,string fileSearched, string rootPath)
+        public List<string> DFS(string mode,string fileSearched, string rootPath, BackgroundWorker bgWorker)
         {
             Stack<string> s = new Stack<string>();
             List<string> results = new List<string>();
@@ -128,8 +169,6 @@ namespace stima_filePedia
 
             bool found=false;
 
-
-            this.graph.AddNode(rootPath);
             while (s.Any() && !found)
             {
                 string temp = s.Pop();
@@ -138,15 +177,54 @@ namespace stima_filePedia
                 DirectoryInfo[] childDirs = dir.GetDirectories();
                 FileInfo[] files = dir.GetFiles();
 
-                // GRAPHING START
-                this.graph.AddNode(temp).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                foreach (DirectoryInfo d in childDirs)
+                var parentNode = this.graph.AddNode(temp);
+                var baseLabelText = temp.Split('\\');
+                parentNode.LabelText = baseLabelText.Last();
+
+                bgWorker.ReportProgress(0);
+                Thread.Sleep(250);
+
+                // Jika directory kosong, tandai dengan directory tersebut dengan warna merah serta warna parent nya (jika hitam)
+                if (files.Length == 0)
                 {
-                    this.graph.AddNode(d.FullName);
+                    parentNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+
+                    List<string> foundFilePath = new List<string> { rootPath };
+                    string[] combination = temp.Substring(rootPath.Length + 1).Split('\\');
+                    for (int i = 0; i < combination.Length; i++)
+                    {
+                        string joined = foundFilePath[i] + "\\" + combination[i];
+                        foundFilePath.Add(joined);
+                        var joinedNode = this.graph.FindNode(joined);
+                        if (joinedNode.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                        {
+                            joinedNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                        }
+                        foreach (var edge in this.graph.Edges.ToArray())
+                        {
+                            if (edge.TargetNode.Id == foundFilePath[i] || edge.TargetNode.Id == temp)
+                            {
+                                if (edge.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                                {
+                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    bgWorker.ReportProgress(0);
                 }
 
                 foreach (FileInfo file in files){
+
                     Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(file.FullName);
+                    var e = new Microsoft.Msagl.Drawing.Edge(parentNode, node, Microsoft.Msagl.Drawing.ConnectionToGraph.Connected);
+
+                    var labelText = node.LabelText.Split('\\');
+                    node.LabelText = labelText.Last();
+                    bgWorker.ReportProgress(0);
+                    Thread.Sleep(250);
+
                     Debug.Write("Nama File :");
                     Debug.WriteLine(file);
                     if(file.Name==fileSearched){
@@ -154,69 +232,77 @@ namespace stima_filePedia
                         Debug.Write("Ketemu :");
                         Debug.WriteLine(result);
                         results.Add(result);
+
+                        // Mewarnai hasil ketemu dan semua parent directory nya dengan warna biru
+                        node.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                        this.graph.FindNode(rootPath).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+
+                        List<string> foundFilePath = new List<string> { rootPath };
+                        string[] combination = file.FullName.Substring(rootPath.Length + 1).Split('\\');
+                        for (int i = 0; i < combination.Length; i++)
+                        {
+                            string joined = foundFilePath[i] + "\\" + combination[i];
+                            foundFilePath.Add(joined);
+                            this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                            foreach (var edge in this.graph.Edges.ToArray())
+                            {
+                                if (edge.TargetNode.Id == foundFilePath[i] || edge.TargetNode.Id == result && edge.Attr.Color == Microsoft.Msagl.Drawing.Color.Black)
+                                {
+                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                                    break;
+                                }
+                            }
+                        }
+
                         if (mode == "first")
                         {
                             found=true;
                         }
                     } else
                     {
+                        // Tandai file yang bukan dicari menjadi merah, serta parent node nya
                         node.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                        e.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+
+                        List<string> foundFilePath = new List<string> { rootPath };
+                        string[] combination = file.FullName.Substring(rootPath.Length + 1).Split('\\');
+                        for (int i = 0; i < combination.Length; i++)
+                        {
+                            string joined = foundFilePath[i] + "\\" + combination[i];
+                            foundFilePath.Add(joined);
+                            var joinedNode = this.graph.FindNode(joined);
+                            if (joinedNode.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                            {
+                                joinedNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                            }
+                            foreach (var edge in this.graph.Edges.ToArray())
+                            {
+                                if (edge.TargetNode.Id == foundFilePath[i])
+                                {
+                                    if (edge.Attr.Color.Equals(Microsoft.Msagl.Drawing.Color.Black))
+                                    {
+                                        edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
                 foreach(DirectoryInfo childDir in childDirs){
-                    this.graph.AddNode(childDir.FullName);
                     s.Push(Path.Combine(temp,childDir.ToString()));
+                    Microsoft.Msagl.Drawing.Node node = this.graph.AddNode(childDir.FullName);
+                    var labelText = node.LabelText.Split('\\');
+                    node.LabelText = labelText.Last();
+                    var e = new Microsoft.Msagl.Drawing.Edge(parentNode, node, Microsoft.Msagl.Drawing.ConnectionToGraph.Connected);
+                    bgWorker.ReportProgress(0);
+
                 }
             }
+            bgWorker.ReportProgress(0);
+
             Debug.WriteLine("Hasil Akhir :");
             Debug.WriteLine(String.Join(", ", results));
-
-            // GRAPHING
-            Microsoft.Msagl.Drawing.Node rootNode = this.graph.FindNode(rootPath);
-            if (results.Count > 0) rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-            else rootNode.Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-
-
-            foreach (string result in results)
-            {
-                List<string> foundFilePath = new List<string>
-                {
-                    rootPath
-                };
-                string[] combination = result.Substring(rootPath.Length + 1).Split('\\');
-                for (int i = 0; i < combination.Length; i++)
-                {
-                    // Change the color to blue
-                    string joined = foundFilePath[i] + "\\" + combination[i];
-                    foundFilePath.Add(joined);
-                    this.graph.FindNode(joined).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-                }
-            }
-
-            Microsoft.Msagl.Drawing.Node[] nodeArray = this.graph.Nodes.ToArray().Where(n => n.Id != rootPath).ToArray();
-            foreach (Microsoft.Msagl.Drawing.Node node in nodeArray)
-            {
-
-                string[] pathSplit = node.Id.Split('\\');
-                string parentNodeId = string.Join("\\", pathSplit.Take(pathSplit.Length - 1));
-                Microsoft.Msagl.Drawing.Node parentNode = this.graph.FindNode(parentNodeId);
-                node.LabelText = pathSplit.Last();
-
-                Microsoft.Msagl.Drawing.Color blueColor = Microsoft.Msagl.Drawing.Color.Blue;
-                Microsoft.Msagl.Drawing.Color redColor = Microsoft.Msagl.Drawing.Color.Red;
-                if (parentNode.Attr.Color == blueColor && node.Attr.Color == blueColor)
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
-                }
-                else if ((parentNode.Attr.Color == redColor || parentNode.Attr.Color == blueColor) && (node.Attr.Color == redColor))
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                }
-                else
-                {
-                    this.graph.AddEdge(parentNodeId, node.Id).Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
-                }
-            }
 
             return results;
         }
