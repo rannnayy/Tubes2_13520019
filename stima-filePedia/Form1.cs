@@ -38,8 +38,8 @@ namespace stima_filePedia
         private void button2_Click(object sender, EventArgs e)
         {
             listBoxLinkPath.Items.Clear();
-
             stopwatch.Reset();
+
 
             if (isRunning)
             {
@@ -58,6 +58,7 @@ namespace stima_filePedia
                 return;
             }
 
+            stopwatch.Reset();
             isRunning = true;
             backgroundWorker2.RunWorkerAsync();
         }
@@ -97,18 +98,12 @@ namespace stima_filePedia
                 if (checkBoxFindAll.Checked)
                 {
                     results = graph.DFS("all", textBoxFileName.Text, labelFolder.Text, backgroundWorker2);
-                }
+                } 
                 else
                 {
                     results = graph.DFS("first", textBoxFileName.Text, labelFolder.Text, backgroundWorker2);
                 }
                 
-            }
-            // labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
-
-            foreach (string res in results)
-            {
-                // listBoxLinkPath.Items.Add(res);
             }
 
         }

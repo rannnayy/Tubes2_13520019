@@ -63,9 +63,9 @@ namespace stima_filePedia
             // 
             this.labelTitle.AutoSize = true;
             this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(473, 21);
+            this.labelTitle.Location = new System.Drawing.Point(532, 26);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(241, 39);
+            this.labelTitle.Size = new System.Drawing.Size(192, 31);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "Folder Crawler";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -73,9 +73,9 @@ namespace stima_filePedia
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(543, 65);
+            this.label1.Location = new System.Drawing.Point(610, 82);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 16);
+            this.label1.Size = new System.Drawing.Size(89, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "by filePedia";
             // 
@@ -83,7 +83,7 @@ namespace stima_filePedia
             // 
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 17);
+            this.label2.Size = new System.Drawing.Size(100, 22);
             this.label2.TabIndex = 5;
             // 
             // groupBox1
@@ -101,11 +101,11 @@ namespace stima_filePedia
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(20, 102);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.groupBox1.Location = new System.Drawing.Point(22, 128);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.groupBox1.Size = new System.Drawing.Size(1104, 294);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(1242, 368);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
@@ -118,10 +118,10 @@ namespace stima_filePedia
             this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(508, 246);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.button2.Location = new System.Drawing.Point(572, 308);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 36);
+            this.button2.Size = new System.Drawing.Size(132, 45);
             this.button2.TabIndex = 10;
             this.button2.Text = "Search!";
             this.button2.UseVisualStyleBackColor = false;
@@ -131,10 +131,10 @@ namespace stima_filePedia
             // 
             this.radioButtonDFS.AutoSize = true;
             this.radioButtonDFS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonDFS.Location = new System.Drawing.Point(335, 217);
-            this.radioButtonDFS.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.radioButtonDFS.Location = new System.Drawing.Point(376, 271);
+            this.radioButtonDFS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButtonDFS.Name = "radioButtonDFS";
-            this.radioButtonDFS.Size = new System.Drawing.Size(147, 21);
+            this.radioButtonDFS.Size = new System.Drawing.Size(113, 17);
             this.radioButtonDFS.TabIndex = 9;
             this.radioButtonDFS.TabStop = true;
             this.radioButtonDFS.Text = "Depth First Search";
@@ -144,10 +144,10 @@ namespace stima_filePedia
             // 
             this.radioButtonBFS.AutoSize = true;
             this.radioButtonBFS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonBFS.Location = new System.Drawing.Point(335, 192);
-            this.radioButtonBFS.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.radioButtonBFS.Location = new System.Drawing.Point(376, 240);
+            this.radioButtonBFS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButtonBFS.Name = "radioButtonBFS";
-            this.radioButtonBFS.Size = new System.Drawing.Size(159, 21);
+            this.radioButtonBFS.Size = new System.Drawing.Size(121, 17);
             this.radioButtonBFS.TabIndex = 8;
             this.radioButtonBFS.TabStop = true;
             this.radioButtonBFS.Text = "Breadth First Search";
@@ -157,9 +157,9 @@ namespace stima_filePedia
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(19, 192);
+            this.label7.Location = new System.Drawing.Point(21, 240);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(246, 25);
+            this.label7.Size = new System.Drawing.Size(198, 20);
             this.label7.TabIndex = 7;
             this.label7.Text = "Choose Searching Method";
             // 
@@ -167,10 +167,10 @@ namespace stima_filePedia
             // 
             this.checkBoxFindAll.AutoSize = true;
             this.checkBoxFindAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFindAll.Location = new System.Drawing.Point(335, 145);
-            this.checkBoxFindAll.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.checkBoxFindAll.Location = new System.Drawing.Point(376, 182);
+            this.checkBoxFindAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxFindAll.Name = "checkBoxFindAll";
-            this.checkBoxFindAll.Size = new System.Drawing.Size(156, 21);
+            this.checkBoxFindAll.Size = new System.Drawing.Size(121, 17);
             this.checkBoxFindAll.TabIndex = 6;
             this.checkBoxFindAll.Text = "Find All Occurences";
             this.checkBoxFindAll.UseVisualStyleBackColor = true;
@@ -179,9 +179,9 @@ namespace stima_filePedia
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(19, 143);
+            this.label6.Location = new System.Drawing.Point(21, 178);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(251, 25);
+            this.label6.Size = new System.Drawing.Size(200, 20);
             this.label6.TabIndex = 5;
             this.label6.Text = "Tick to Find All Occurences";
             // 
@@ -189,19 +189,19 @@ namespace stima_filePedia
             // 
             this.labelFolder.AutoSize = true;
             this.labelFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFolder.Location = new System.Drawing.Point(495, 43);
+            this.labelFolder.Location = new System.Drawing.Point(556, 54);
             this.labelFolder.Name = "labelFolder";
-            this.labelFolder.Size = new System.Drawing.Size(122, 17);
+            this.labelFolder.Size = new System.Drawing.Size(92, 13);
             this.labelFolder.TabIndex = 4;
             this.labelFolder.Text = "No Folder Chosen";
             // 
             // textBoxFileName
             // 
             this.textBoxFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxFileName.Location = new System.Drawing.Point(335, 86);
-            this.textBoxFileName.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.textBoxFileName.Location = new System.Drawing.Point(376, 108);
+            this.textBoxFileName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxFileName.Name = "textBoxFileName";
-            this.textBoxFileName.Size = new System.Drawing.Size(283, 23);
+            this.textBoxFileName.Size = new System.Drawing.Size(318, 20);
             this.textBoxFileName.TabIndex = 3;
             // 
             // buttonChooseFolder
@@ -210,10 +210,10 @@ namespace stima_filePedia
             this.buttonChooseFolder.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.buttonChooseFolder.FlatAppearance.BorderSize = 2;
             this.buttonChooseFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonChooseFolder.Location = new System.Drawing.Point(335, 38);
-            this.buttonChooseFolder.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.buttonChooseFolder.Location = new System.Drawing.Point(376, 48);
+            this.buttonChooseFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonChooseFolder.Name = "buttonChooseFolder";
-            this.buttonChooseFolder.Size = new System.Drawing.Size(140, 31);
+            this.buttonChooseFolder.Size = new System.Drawing.Size(158, 38);
             this.buttonChooseFolder.TabIndex = 2;
             this.buttonChooseFolder.Text = "Choose Folder ...";
             this.buttonChooseFolder.UseVisualStyleBackColor = false;
@@ -223,9 +223,9 @@ namespace stima_filePedia
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(19, 89);
+            this.label4.Location = new System.Drawing.Point(21, 111);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 25);
+            this.label4.Size = new System.Drawing.Size(80, 20);
             this.label4.TabIndex = 1;
             this.label4.Text = "File Name";
             // 
@@ -233,9 +233,9 @@ namespace stima_filePedia
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(19, 39);
+            this.label3.Location = new System.Drawing.Point(21, 49);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(235, 25);
+            this.label3.Size = new System.Drawing.Size(191, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Choose Starting Directory";
             // 
@@ -253,11 +253,11 @@ namespace stima_filePedia
             this.groupBox2.Controls.Add(this.listBoxLinkPath);
             this.groupBox2.Controls.Add(this.labelLinkPath);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(20, 412);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 1, 3, 7);
+            this.groupBox2.Location = new System.Drawing.Point(22, 515);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 9);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.groupBox2.Size = new System.Drawing.Size(1104, 716);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(1242, 526);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
@@ -266,9 +266,9 @@ namespace stima_filePedia
             // 
             this.labelTE.AutoSize = true;
             this.labelTE.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTE.Location = new System.Drawing.Point(169, 92);
+            this.labelTE.Location = new System.Drawing.Point(190, 115);
             this.labelTE.Name = "labelTE";
-            this.labelTE.Size = new System.Drawing.Size(46, 20);
+            this.labelTE.Size = new System.Drawing.Size(38, 17);
             this.labelTE.TabIndex = 13;
             this.labelTE.Text = "0 ms";
             // 
@@ -276,9 +276,9 @@ namespace stima_filePedia
             // 
             this.labelTime.AutoSize = true;
             this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTime.Location = new System.Drawing.Point(19, 92);
+            this.labelTime.Location = new System.Drawing.Point(21, 115);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(132, 25);
+            this.labelTime.Size = new System.Drawing.Size(105, 20);
             this.labelTime.TabIndex = 12;
             this.labelTime.Text = "Time Elapsed";
             // 
@@ -297,9 +297,9 @@ namespace stima_filePedia
             this.gViewer1.InsertingEdge = false;
             this.gViewer1.LayoutAlgorithmSettingsButtonVisible = true;
             this.gViewer1.LayoutEditingEnabled = true;
-            this.gViewer1.Location = new System.Drawing.Point(173, 135);
+            this.gViewer1.Location = new System.Drawing.Point(196, 169);
             this.gViewer1.LooseOffsetForRouting = 0.25D;
-            this.gViewer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gViewer1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.gViewer1.MouseHitDistance = 0.05D;
             this.gViewer1.Name = "gViewer1";
             this.gViewer1.NavigationVisible = true;
@@ -312,7 +312,7 @@ namespace stima_filePedia
             this.gViewer1.SaveButtonVisible = true;
             this.gViewer1.SaveGraphButtonVisible = true;
             this.gViewer1.SaveInVectorFormatEnabled = true;
-            this.gViewer1.Size = new System.Drawing.Size(893, 546);
+            this.gViewer1.Size = new System.Drawing.Size(1005, 339);
             this.gViewer1.TabIndex = 11;
             this.gViewer1.TightOffsetForRouting = 0.125D;
             this.gViewer1.ToolBarIsVisible = true;
@@ -326,9 +326,9 @@ namespace stima_filePedia
             // 
             this.labelGraph.AutoSize = true;
             this.labelGraph.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGraph.Location = new System.Drawing.Point(19, 135);
+            this.labelGraph.Location = new System.Drawing.Point(21, 169);
             this.labelGraph.Name = "labelGraph";
-            this.labelGraph.Size = new System.Drawing.Size(66, 25);
+            this.labelGraph.Size = new System.Drawing.Size(54, 20);
             this.labelGraph.TabIndex = 10;
             this.labelGraph.Text = "Graph";
             // 
@@ -336,11 +336,10 @@ namespace stima_filePedia
             // 
             this.listBoxLinkPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxLinkPath.FormattingEnabled = true;
-            this.listBoxLinkPath.ItemHeight = 16;
-            this.listBoxLinkPath.Location = new System.Drawing.Point(173, 39);
-            this.listBoxLinkPath.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.listBoxLinkPath.Location = new System.Drawing.Point(195, 49);
+            this.listBoxLinkPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listBoxLinkPath.Name = "listBoxLinkPath";
-            this.listBoxLinkPath.Size = new System.Drawing.Size(895, 20);
+            this.listBoxLinkPath.Size = new System.Drawing.Size(1006, 30);
             this.listBoxLinkPath.TabIndex = 9;
             this.listBoxLinkPath.SelectedIndexChanged += new System.EventHandler(this.listBoxLinkPath_SelectedIndexChanged);
             // 
@@ -348,9 +347,9 @@ namespace stima_filePedia
             // 
             this.labelLinkPath.AutoSize = true;
             this.labelLinkPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLinkPath.Location = new System.Drawing.Point(19, 39);
+            this.labelLinkPath.Location = new System.Drawing.Point(21, 49);
             this.labelLinkPath.Name = "labelLinkPath";
-            this.labelLinkPath.Size = new System.Drawing.Size(88, 25);
+            this.labelLinkPath.Size = new System.Drawing.Size(71, 20);
             this.labelLinkPath.TabIndex = 8;
             this.labelLinkPath.Text = "File Path";
             // 
@@ -363,17 +362,17 @@ namespace stima_filePedia
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Beige;
-            this.ClientSize = new System.Drawing.Size(1178, 839);
+            this.ClientSize = new System.Drawing.Size(1302, 1049);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelTitle);
-            this.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "filePedia";
             this.Load += new System.EventHandler(this.Form1_Load);
