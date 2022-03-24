@@ -34,6 +34,7 @@ namespace stima_filePedia
         private void button2_Click(object sender, EventArgs e)
         {
             listBoxLinkPath.Items.Clear();
+            stopwatch.Reset();
 
             List<string> results = new List<string>();
 
@@ -47,40 +48,46 @@ namespace stima_filePedia
             {
                 MessageBox.Show("Input A Filename! (including extension)");
             }
-            if (radioButtonBFS.Checked)
-            {
-                stopwatch.Start();
-                if (checkBoxFindAll.Checked)
-                {
-                    results = graph.BFS("all", textBoxFileName.Text, labelFolder.Text);
-                }
-                else
-                {
-                    results = graph.BFS("first", textBoxFileName.Text, labelFolder.Text);
-                }
-                stopwatch.Stop();
-            }
-            else if (radioButtonDFS.Checked)
-            {
-                stopwatch.Start();
-                if (checkBoxFindAll.Checked)
-                {
-                    results = graph.DFS("all", textBoxFileName.Text, labelFolder.Text);
-                }
-                else
-                {
-                    results = graph.DFS("first", textBoxFileName.Text, labelFolder.Text);
-                }
-                stopwatch.Stop();
-            }
-            labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
 
-            foreach(string res in results)
+            if (labelFolder.Text != "No Folder Chosen" && textBoxFileName.Text != "")
             {
-                listBoxLinkPath.Items.Add(res);
-            }
+                if (radioButtonBFS.Checked)
+                {
+                    stopwatch.Start();
+                    if (checkBoxFindAll.Checked)
+                    {
+                        results = graph.BFS("all", textBoxFileName.Text, labelFolder.Text);
+                    }
+                    else
+                    {
+                        results = graph.BFS("first", textBoxFileName.Text, labelFolder.Text);
+                    }
+                    stopwatch.Stop();
+                }
+                else if (radioButtonDFS.Checked)
+                {
+                    stopwatch.Start();
+                    if (checkBoxFindAll.Checked)
+                    {
+                        results = graph.DFS("all", textBoxFileName.Text, labelFolder.Text);
+                    }
+                    else
+                    {
+                        results = graph.DFS("first", textBoxFileName.Text, labelFolder.Text);
+                    }
+                    stopwatch.Stop();
+                }
 
-            gViewer1.Graph = graph.GetGraph();
+                labelTE.Text = stopwatch.ElapsedMilliseconds + " ms";
+
+                foreach (string res in results)
+                {
+                    listBoxLinkPath.Items.Add(res);
+                }
+
+                gViewer1.Graph = graph.GetGraph();
+            }
+            
         }
 
         private void listBoxLinkPath_SelectedIndexChanged(object sender, EventArgs e)
