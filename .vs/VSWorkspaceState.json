@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\stima-filePedia"
+    "\\src",
+    "\\src\\stima-filePedia"
   ],
-  "SelectedNode": "\\stima-filePedia\\Form2.resx",
+  "SelectedNode": "\\src\\stima-filePedia\\stima-filePedia.csproj",
   "PreviewInSolutionExplorer": false
 }
